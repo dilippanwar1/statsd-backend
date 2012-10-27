@@ -49,7 +49,7 @@ end
 
 # Exports a clean copy of the git repository
 task :git_export => :export_dir do
-  release_tag = "#{STATSD_BACKEND_VERSION}-#{RELEASE_PREFIX}"	
+  release_tag = "#{STATSD_BACKEND_VERSION}-#{RELEASE_PREFIX}"
   sh "git archive #{release_tag} | tar -x -C #{@export_dir}"
 end
 
