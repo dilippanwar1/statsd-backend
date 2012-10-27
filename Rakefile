@@ -1,9 +1,8 @@
 require "fileutils"
 
-NODE_STATSD_BACKEND_VERSION = '1.0.0'
+STATSD_BACKEND_VERSION = '1.0.0'
 RELEASE_PREFIX = '1soundcloud'
 RELEASE = RELEASE_PREFIX + (ENV['BUILD_NUMBER'] || 'XXXXX')
-RELEASE_BRANCH = ENV['RELEASE_BRANCH'] || 'master'
 
 task :default do
   puts "Please run rake -T to get a listing of available tasks."
@@ -12,7 +11,7 @@ end
 desc "Produce a debian package of statsd-backend."
 task :package => [:tmpdir, :export_dir, :git_export] do
   # Ensure the destination package file is not already present - fpm freaks out
-  output_filename = "statsd-backend_#{NODE_STATSD_BACKEND_VERSION}-#{RELEASE}_amd64.deb"
+  output_filename = "statsd-backend_#{STATSD_BACKEND_VERSION}-#{RELEASE}_amd64.deb"
   File.unlink(output_filename) if File.exist?(output_filename)
 
   # Collect arguments to fpm
@@ -20,7 +19,7 @@ task :package => [:tmpdir, :export_dir, :git_export] do
     -t deb
     -s dir
     -n statsd-backend
-    -v #{NODE_STATSD_BACKEND_VERSION}
+    -v #{STATSD_BACKEND_VERSION}
     --iteration #{RELEASE}
     -C #{@tmpdir}
     -d statsd
@@ -50,7 +49,8 @@ end
 
 # Exports a clean copy of the git repository
 task :git_export => :export_dir do
-  sh "git archive #{RELEASE_BRANCH} | tar -x -C #{@export_dir}"
+  release_tag = "#{STATSD_BACKEND_VERSION}-#{RELEASE_PREFIX}"	
+  sh "git archive #{release_tag} | tar -x -C #{@export_dir}"
 end
 
 # Cleans up the temporary directory containing the build
