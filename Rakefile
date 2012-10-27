@@ -9,17 +9,17 @@ task :default do
   puts "Please run rake -T to get a listing of available tasks."
 end
 
-desc "Produce a debian package of node-statsd-backend."
+desc "Produce a debian package of statsd-backend."
 task :package => [:tmpdir, :export_dir, :git_export] do
   # Ensure the destination package file is not already present - fpm freaks out
-  output_filename = "node-statsd-backend_#{NODE_STATSD_BACKEND_VERSION}-#{RELEASE}_amd64.deb"
+  output_filename = "statsd-backend_#{NODE_STATSD_BACKEND_VERSION}-#{RELEASE}_amd64.deb"
   File.unlink(output_filename) if File.exist?(output_filename)
 
   # Collect arguments to fpm
   fpm_args = %W{
     -t deb
     -s dir
-    -n node-statsd-backend
+    -n statsd-backend
     -v #{NODE_STATSD_BACKEND_VERSION}
     --iteration #{RELEASE}
     -C #{@tmpdir}
