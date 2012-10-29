@@ -1,7 +1,7 @@
 require "fileutils"
 
-STATSD_BACKEND_VERSION = '1.0.0'
-RELEASE_PREFIX = '1soundcloud'
+STATSD_BACKEND_VERSION = '1.0.1'
+RELEASE_PREFIX = '2soundcloud'
 RELEASE = RELEASE_PREFIX + (ENV['BUILD_NUMBER'] || 'XXXXX')
 
 task :default do
